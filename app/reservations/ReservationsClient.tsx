@@ -4,17 +4,18 @@ import { toast } from "react-hot-toast";
 import axios from "axios";
 import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
+
 import Heading from "@/app/components/Heading";
 import Container from "@/app/components/Container";
 import ListingCard from "@/app/components/listings/ListingCard";
 import { Reservation, User } from "@prisma/client";
 
-interface TripsClientProps {
+interface ReservationsClientProps {
   reservations: Reservation[];
   currentUser?: User | null;
 }
 
-const TripsClient: React.FC<TripsClientProps> = ({
+const ReservationsClient: React.FC<ReservationsClientProps> = ({
   reservations,
   currentUser,
 }) => {
@@ -31,8 +32,8 @@ const TripsClient: React.FC<TripsClientProps> = ({
           toast.success("Reservation cancelled");
           router.refresh();
         })
-        .catch((error) => {
-          toast.error(error?.response?.data?.error);
+        .catch(() => {
+          toast.error("Something went wrong.");
         })
         .finally(() => {
           setDeletingId("");
@@ -43,10 +44,7 @@ const TripsClient: React.FC<TripsClientProps> = ({
 
   return (
     <Container>
-      <Heading
-        title="Trips"
-        subtitle="Where you've been and where you're going"
-      />
+      <Heading title="Reservations" subtitle="Bookings on your properties" />
       <div
         className="
           mt-10
@@ -68,7 +66,7 @@ const TripsClient: React.FC<TripsClientProps> = ({
             actionId={reservation.id}
             onAction={onCancel}
             disabled={deletingId === reservation.id}
-            actionLabel="Cancel reservation"
+            actionLabel="Cancel guest reservation"
             currentUser={currentUser}
           />
         ))}
@@ -77,4 +75,4 @@ const TripsClient: React.FC<TripsClientProps> = ({
   );
 };
 
-export default TripsClient;
+export default ReservationsClient;
