@@ -7,33 +7,25 @@ const ReservationsPage = async () => {
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {
-    return (
-      <EmptyState 
-        title='Unauthorized'
-        subtitle='Please login'
-      />
-    )
+    return <EmptyState title="Unauthorized" subtitle="Please login" />;
   }
 
   const reservations = await getReservations({
     authorId: currentUser.id,
-  })
+  });
 
-  if (reservations.length === 0){
+  if (reservations.length === 0) {
     return (
-      <EmptyState 
+      <EmptyState
         title="No reservations found"
-        subtitle='Looks like you have no reservations on your property'
+        subtitle="Looks like you have no reservations on your property"
       />
-    )
+    );
   }
 
   return (
-    <ReservationsClient 
-      reservations={reservations}
-      currentUser={currentUser}
-    />
-  )
-}
+    <ReservationsClient reservations={reservations} currentUser={currentUser} />
+  );
+};
 
-export default ReservationsPage
+export default ReservationsPage;

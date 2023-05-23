@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import prisma from "@/app/libs/prismadb";
 
 export interface IListingsParams {
@@ -18,9 +20,9 @@ export default async function getListings(params: IListingsParams) {
       roomCount,
       guestCount,
       bathroomCount,
+      locationValue,
       startDate,
       endDate,
-      locationValue,
       category,
     } = params;
 
@@ -34,15 +36,15 @@ export default async function getListings(params: IListingsParams) {
       query.category = category;
     }
 
-    if (guestCount) {
-      query.guestCount = {
-        gte: +guestCount,
-      };
-    }
-
     if (roomCount) {
       query.roomCount = {
         gte: +roomCount,
+      };
+    }
+
+    if (guestCount) {
+      query.guestCount = {
+        gte: +guestCount,
       };
     }
 
